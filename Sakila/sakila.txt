@@ -1,0 +1,51 @@
+1 :
+SELECT name, 
+COUNT(title) FROM film 
+INNER JOIN film_category ON film.film_id = film_category.film_id
+INNER JOIN category ON film_category.category_id = category.category_id
+GROUP BY name
+
+2 :
+SELECT i.store_id, c.name, 
+COUNT(fc.film_id) FROM film_category fc 
+INNER JOIN category c ON fc.category_id = c.category_id 
+INNER JOIN inventory i ON i.film_id = fc.film_id 
+GROUP BY c.name, i.store_id 
+ORDER BY i.store_id, c.name ASC
+
+3 :
+SELECT title, 
+COUNT(actor_id) FROM film 
+INNER JOIN film_actor ON film.film_id = film_actor.film_id 
+GROUP BY title 
+ORDER BY title ASC
+
+4 :
+SELECT title, 
+COUNT(rental_id) FROM film
+INNER JOIN inventory ON film.film_id = inventory.film_id
+INNER JOIN rental ON inventory.inventory_id = rental.inventory_id
+GROUP BY title 
+ORDER BY COUNT(rental_id) DESC
+
+5 :
+SELECT s.store_id, city, 
+COUNT(c.customer_id) FROM customer as c
+INNER JOIN store as s ON s.store_id = c.store_id
+INNER JOIN address as a ON a.address_id = s.address_id
+INNER JOIN city as ci ON ci.city_id = a.city_id
+GROUP BY s.store_id
+
+6 :
+SELECT s.store_id,
+SUM(p.amount) FROM payment p
+INNER JOIN rental r ON r.rental_id = p.rental_id
+INNER JOIN staff s ON s.staff_id = r.staff_id
+GROUP BY s.store_id
+
+7 :
+SELECT c.first_name, c.last_name, c.email FROM customer c
+INNER JOIN address a ON c.address_id = a.address_id
+INNER JOIN city ci ON a.city_id = ci.city_id
+INNER JOIN country co ON ci.country_id = co.country_id
+WHERE active = '1' AND country = 'Canada'
