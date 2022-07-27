@@ -1,0 +1,3 @@
+# ExosMySQL
+
+Entrainement à MySQL
